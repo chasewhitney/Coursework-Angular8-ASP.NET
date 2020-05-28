@@ -1,0 +1,4 @@
+One file must be decorated with @NgModule({})
+It bootstraps Angular component(s)
+    {... bootstrap: [AppComponent]} // AppComponent is the root component
+

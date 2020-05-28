@@ -1,0 +1,68 @@
+Visual Code shortcuts:
+    ctor -> constructor
+
+Data Structures:
+    IEnumerable<type> is a "collection of things"
+
+Other:
+    dotnet watch run
+
+1.  nuget: Microsoft.EntityFrameworkCore
+    Created Data/DataContext.cs
+    Created Models/Value.cs
+
+2.  nuget: Microsoft.EntityFrameworkCore.Sqlite
+
+    appsettings.json:
+        "ConnectionStrings": {
+            "DefaultConnection": "Data Source=datingapp.db"
+        },
+
+    Startup.cs:    
+        add to ConfigureServices():
+        services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+
+
+3.  // Create a migration: creates code to scaffold db. Will need to use .NET EntityFramework tools
+    dotnet tool install --global dotnet-ef --version 3.0.0   
+        dotnet ef -h
+
+    nuget: Microsoft.EntityFrameworkCore.Design
+    
+    dotnet ef migrations add InitialCreate
+
+    dotnet ef database update // applies migrations and creates db if it doesn't exist
+
+4. In ValuesController.cs
+
+        private readonly DataContext _context; // preference: _ denotes private variable
+
+        public ValuesController(DataContext context)
+        {
+            this._context = context;
+
+        }
+
+        
+        // Change return types to IActionResult insead of enumerables
+        // Make it async
+        [HttpGet]
+        public async Task<IActionResult> GetValues() // can return HTTP response instead of collection of Strings: return Ok(data)
+        {
+            // Note async method ToListAsync()
+            var values = await _context.Values.ToListAsync();
+
+            return Ok(values); // returns values with HTTP 200 OK response
+        }
+
+        // Same to [HttpGet{"id"}]
+
+5. In Startup.cs
+    // Add CORS as service, then as middleware
+    // "Write a header response into our request that we're sending back to client
+    
+    // Services
+    services.AddCors();
+
+    // Middleware, (good enough for development)
+    app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());

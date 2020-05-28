@@ -1,0 +1,10 @@
+ASYNC
+
+    [HttpGet]
+    public async Task<IActionResult> GetValues() // can return HTTP response instead of collection of Strings: return Ok(data)
+    {
+        // Note async method ToListAsync()
+        var values = await _context.Values.ToListAsync();
+
+        return Ok(values); // returns values with HTTP 200 OK response
+    }
