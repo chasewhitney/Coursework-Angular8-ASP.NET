@@ -66,3 +66,17 @@ Other:
 
     // Middleware, (good enough for development)
     app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
+6. User.cs (create User model)
+
+    DataContext.cs // add context for User
+    public DbSet<User> Users { get; set; }
+
+    dotnet ef migrations add AddedUserEntity
+
+7. Create IAuthRepository and AuthRespository, add AuthRespository to services
+
+    Startup.cs
+    services.AddScoped<IAuthRespository, AuthRepository>();
+
+8. Created AuthController

@@ -8,3 +8,11 @@ ASYNC
 
         return Ok(values); // returns values with HTTP 200 OK response
     }
+
+=====
+Anytime a model is created/updated, need to add new migration and apply to db
+
+dotnet ef migrations add AddedUserEntity
+dotnet ef database update
+
+=====
