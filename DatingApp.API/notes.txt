@@ -9,10 +9,36 @@ ASYNC
         return Ok(values); // returns values with HTTP 200 OK response
     }
 
-=====
+=============================================================================
 Anytime a model is created/updated, need to add new migration and apply to db
 
 dotnet ef migrations add AddedUserEntity
 dotnet ef database update
 
-=====
+=============================================================================
+-- DataContext.cs
+using Microsoft.EntityFrameworkCore;
+
+Need to tell EnityFramework about entity (model) so it can scaffold db
+and create a table for that class
+
+A DbContext instance represents a session with the database and can be
+used to query and save instances of your entities.
+DbContext is a combination of the Unit Of Work and Repository patterns.
+
+Make it a service so it can be consumed in other parts of the app.
+
+-- Startup.cs
+(add package: Microsoft.EntityFrameworkCore.Sqlite)
+services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+
+-- appsettings.json
+  "ConnectionStrings": {
+    "DefaultConnection" : "Data Source=mealtracker.db"
+  },
+
+-- console
+(add package: Microsoft.EntityFrameworkCore.Design)
+
+dotnet ef migrations add InitialCreate
+dotnet ef database update

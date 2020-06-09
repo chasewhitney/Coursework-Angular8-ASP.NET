@@ -1,3 +1,9 @@
+Source Control in Visual Studio Code:
+    +: Stage all changes
+    commit message then ctrl + Enter
+    push from dropdown
+
+
 Visual Code shortcuts:
     ctor -> constructor
 
@@ -5,7 +11,12 @@ Data Structures:
     IEnumerable<type> is a "collection of things"
 
 Other:
-    dotnet watch run
+    project templates: dotnet new -h
+
+From empty folder:
+    dotnet new webapi -n DatingApp.API
+
+
 
 1.  nuget: Microsoft.EntityFrameworkCore
     Created Data/DataContext.cs

@@ -1,4 +1,77 @@
-One file must be decorated with @NgModule({})
-It bootstraps Angular component(s)
-    {... bootstrap: [AppComponent]} // AppComponent is the root component
+=================================================================================
+=== CSS - Bootstrap & FontAwesome ===============================================
+=================================================================================
 
+    @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+    @import '../node_modules/font-awesome/css/font-awesome.min.css';
+
+
+=================================================================================
+=== Angular8 ====================================================================
+=================================================================================
+
+    (click)="logout()"
+
+    (ngSubmit)="register()"
+
+    [(ngModel)]="model.username" name="username" required
+
+
+    *ngIf="boolean"
+
+    <p *ngFor="let value of values">{{value.name}}</p>
+
+    ///////////////////////////////////////////////////////////////////////////
+
+    Structural directives manipulate DOM, preceded by *
+    *ngIf
+
+
+    ///////////////////////////////////////////////////////////////////////////
+
+    One file must be decorated with @NgModule({})
+    It bootstraps Angular component(s)
+        {... bootstrap: [AppComponent]} // AppComponent is the root component
+
+    ///////////////////////////////////////////////////////////////////////////
+    /// Component Communication ///////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+        --- Parent to Child -------------------------------------------------------
+            // Parent HTML
+                <app-register ... [valuesFromHome]="values"></app-register>
+
+            // Child component
+                @Input() valuesFromHome: any;
+
+        --- Child to Parent -------------------------------------------------------
+            // Child component
+                import { ... Output, EventEmitter } from '@angular/core';
+                @Output() cancelRegister = new EventEmitter();
+                // in some method:
+                this.cancelRegister.emit(false);
+
+            // Parent HTML
+                <app-register ... (cancelRegister)="cancelRegisterMode($event)"></app-register>
+
+            // Parent component
+                cancelRegisterMode(registerMode: boolean) {
+                    this.registerMode = registerMode;
+                }
+
+
+    ///////////////////////////////////////////////////////////////////////////////
+        
+        // FormsModule imported in app.module.ts
+        // HTML used in any other component
+        <form #registerForm="ngForm">...
+
+
+    ///////////////////////////////////////////////////////////////////////////////
+    /// Snippets //////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////
+
+        <label for="favoriteValue">What is your favorite value?</label>
+        <select class="form-control" id="favoriteValue">
+        <option *ngFor="let value of valuesFromHome" [value]="value">{{value.name}}</option>
+        </select>
